@@ -8,11 +8,13 @@ export default function DeckList() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    api.get('/decks/').then(res => {
-      const filtered = res.data.filter(d => d.note_count > 0)
-      setDecks(filtered)
-      setLoading(false)
-    })
+      api.get('/decks/').then(res => {
+        // Handle both paginated and non-paginated responses
+        const data = res.data.results || res.data
+        const filtered = data.filter(d => d.note_count > 0)
+        setDecks(filtered)
+        setLoading(false)
+      })
   }, [])
 
   if (loading) return <p className="text-gray-400">Loading decks...</p>
