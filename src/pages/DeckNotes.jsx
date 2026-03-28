@@ -28,11 +28,12 @@ export default function DeckNotes() {
   }, [deckId])
 
   const loadMore = () => {
-    api.get(nextPage).then(res => {
+    const url = new URL(nextPage)
+    api.get(url.pathname + url.search).then(res => {
       setNotes(prev => [...prev, ...res.data.results])
       setNextPage(res.data.next)
     })
-  }
+}
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
