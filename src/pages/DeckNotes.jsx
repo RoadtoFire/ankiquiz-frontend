@@ -103,7 +103,8 @@ export default function DeckNotes() {
     setLoadingMore(true)
     try {
       const url = new URL(nextPage)
-      api.get(url.pathname + url.search).then(res => {
+      const params = url.searchParams.toString()
+      api.get(`/notes/?${params}`).then(res => {
         setNotes(prev => [...prev, ...res.data.results])
         setNextPage(res.data.next)
         setLoadingMore(false)
