@@ -20,6 +20,23 @@ export default function DeckNotes() {
     })
   }, [deckId])
 
+  useEffect(() => {
+    api.get(`/decks/${deckId}/`).then(res => {
+      const name = res.data.name || ''
+      const cleaned = name.split(String.fromCharCode(31)).join(' ').replace(/_/g, ' ')
+      setDeckName(cleaned)
+    }).catch(err => console.error('Deck fetch error:', err))
+
+    api.get(`/notes/?deck=${deckId}`).then(res => {
+      setNotes(res.data.results)
+      setNextPage(res.data.next)
+      setLoading(false)
+    }).catch(err => {
+      console.error('Notes fetch error:', err)
+      setLoading(false)
+    })
+  }, [deckId])
+
   const loadMore = () => {
     if (!nextPage || loadingMore) return
     setLoadingMore(true)
@@ -38,6 +55,8 @@ export default function DeckNotes() {
       setLoadingMore(false)
     }
   }
+
+
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
