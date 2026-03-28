@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import DeckList from './pages/DeckList'
+import DeckNotes from './pages/DeckNotes'
+import NoteDetail from './pages/NoteDetail'
 
 function Header() {
   const navigate = useNavigate()

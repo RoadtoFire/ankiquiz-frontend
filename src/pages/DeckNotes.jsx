@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../api'
 
-
-  function stripCloze(html) {
+function stripCloze(html) {
   return html.replace(/\{\{c\d+::(.+?)(?:::.+?)?\}\}/g, '$1')
 }
+  
 
 export default function DeckNotes() {
   const { deckId } = useParams()
@@ -14,6 +14,7 @@ export default function DeckNotes() {
   const [nextPage, setNextPage] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  
 
 
   useEffect(() => {
