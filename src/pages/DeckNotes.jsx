@@ -2,12 +2,19 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../api'
 
+
+  function stripCloze(html) {
+  return html.replace(/\{\{c\d+::(.+?)(?:::.+?)?\}\}/g, '$1')
+}
+
 export default function DeckNotes() {
   const { deckId } = useParams()
   const navigate = useNavigate()
   const [notes, setNotes] = useState([])
   const [nextPage, setNextPage] = useState(null)
   const [loading, setLoading] = useState(true)
+
+
 
   useEffect(() => {
     api.get(`/notes/?deck=${deckId}`).then(res => {
@@ -41,7 +48,7 @@ export default function DeckNotes() {
           >
             <div
               className="text-sm line-clamp-2 text-gray-700"
-              dangerouslySetInnerHTML={{ __html: note.text }}
+              dangerouslySetInnerHTML={{ __html: stripCloze(note.text) }}
             />
             <div className="flex gap-2 mt-2 flex-wrap">
               {note.tags_list.slice(0, 3).map(tag => (
